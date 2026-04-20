@@ -58,6 +58,7 @@ export default function GamePage() {
   const [resultCountdown, setResultCountdown] = useState<number | null>(null);
 
   const userId = useUserStore((s) => s.user?.id);
+  const setUser = useUserStore((s) => s.setUser);
 
   // Timer interval
   useEffect(() => {
@@ -100,6 +101,8 @@ export default function GamePage() {
   useEffect(() => {
     if (!id || !userId) return;
 
+    let gameFinishedHandled = false;
+
     const handleNewQuestion = (data: Question) => {
       console.log("📝 NEW QUESTION RECEIVED:", data.question);
       console.log("Current questionResult state:", questionResult);
@@ -117,13 +120,36 @@ export default function GamePage() {
       setTimeLeft(null);
     };
 
-    const handleGameFinished = (data: GameResult) => {
+    const handleGameFinished = async (data: GameResult) => {
+      if (gameFinishedHandled) return;
+      gameFinishedHandled = true;
+
       console.log("Game finished", data);
       setStandings(data.standings);
       setGameFinished(true);
-      // 5 saniye sonra lobiye yönlendir
+
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/auth/me`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        }
+      } catch (error) {
+        console.error("Failed to update user data:", error);
+      }
+
       setTimeout(() => {
-        router.push("/lobby");
+        router.push("/");
       }, 5000);
     };
 
@@ -160,7 +186,9 @@ export default function GamePage() {
       setLiveStandings(data.standings);
     };
 
-    console.log("🔌 Registering socket event handlers for game", id);
+    socket.off("newQuestion").off("gameFinished").off("gameCountdown").off("gameStatus")
+      .off("connect_error").off("questionResult").off("leaderboardUpdate");
+
     socket.on("newQuestion", handleNewQuestion);
     socket.on("gameFinished", handleGameFinished);
     socket.on("gameCountdown", handleCountdown);
@@ -168,33 +196,18 @@ export default function GamePage() {
     socket.on("connect_error", handleConnectError);
     socket.on("questionResult", handleQuestionResult);
     socket.on("leaderboardUpdate", handleLeaderboardUpdate);
-    console.log("✅ All socket handlers registered");
 
     const setupGame = async () => {
       await socketConnected();
-      console.log("Socket connected:", socket.connected, "ID:", socket.id, "GameID:", id);
       setGameStatus("WAITING");
       socket.emit("joinGameRoom", { gameId: id });
-      console.log("JOINED ROOM:", id);
     };
 
     setupGame();
 
-    // 3 saniye sonra tekrar kontrol et
-    const retryTimer = setTimeout(() => {
-      console.log("Retrying joinGameRoom...");
-      socket.emit("joinGameRoom", { gameId: id });
-    }, 3000);
-
     return () => {
-      clearTimeout(retryTimer);
-      socket.off("newQuestion", handleNewQuestion);
-      socket.off("gameFinished", handleGameFinished);
-      socket.off("gameCountdown", handleCountdown);
-      socket.off("gameStatus", handleGameStatus);
-      socket.off("connect_error", handleConnectError);
-      socket.off("questionResult", handleQuestionResult);
-      socket.off("leaderboardUpdate", handleLeaderboardUpdate);
+      socket.off("newQuestion").off("gameFinished").off("gameCountdown").off("gameStatus")
+        .off("connect_error").off("questionResult").off("leaderboardUpdate");
     };
   }, [id, userId]);
 
