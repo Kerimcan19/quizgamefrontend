@@ -12,31 +12,8 @@ export default function Home() {
   useEffect(() => {
     if (!token || !user) {
       router.push("/auth/login");
-      return;
     }
-
-    // User data'yı refreshla (oyun sonrası krediler güncel olsun)
-    const refreshUserData = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/auth/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const userData = await res.json();
-          setUser({
-            id: userData.id,
-            email: userData.email,
-            username: userData.username,
-            credits: userData.credits,
-          });
-        }
-      } catch (err) {
-        console.error("Failed to refresh user data:", err);
-      }
-    };
-
-    refreshUserData();
-  }, [token, user, router, setUser]);
+  }, [token, user, router]);
 
   if (!user) {
     return null;
@@ -121,6 +98,25 @@ export default function Home() {
           </button>
 
           <button
+            onClick={() => router.push("/friends")}
+            style={{
+              padding: "20px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              border: "none",
+              borderRadius: "12px",
+              background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+              color: "white",
+              cursor: "pointer",
+              transition: "transform 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          >
+            👥 Arkadaşlar
+          </button>
+
+          <button
             onClick={() => router.push("/store")}
             style={{
               padding: "20px",
@@ -132,7 +128,6 @@ export default function Home() {
               color: "white",
               cursor: "pointer",
               transition: "transform 0.2s",
-              gridColumn: "1 / -1",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
