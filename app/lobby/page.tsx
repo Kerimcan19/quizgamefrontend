@@ -66,7 +66,7 @@ export default function Lobby() {
 
   const createPrivateGame = async () => {
     if (!userId || !selectedFriend) {
-      alert("Lütfen bir arkadaş seçin");
+      alert("Please select a friend");
       return;
     }
 
@@ -80,7 +80,7 @@ export default function Lobby() {
       setSearching(false);
       setGameMode(null);
       setPrivateGameMode(null);
-      alert(`Davet gönderildi! Arkadaşın kabul etmesini bekleyin...`);
+      alert(`Invitation sent! Waiting for your friend to accept...`);
       // Oyun sayfasında bekleyecek, arkadaş katılınca başlayacak
       router.push(`/game/${gameId}`);
     } catch (err) {
@@ -91,7 +91,7 @@ export default function Lobby() {
 
   const joinPrivateGame = async (gameId: string) => {
     if (!userId) {
-      alert("Kullanıcı ID bulunamadı");
+      alert("User ID not found");
       return;
     }
 
@@ -103,7 +103,7 @@ export default function Lobby() {
       setPrivateGameMode(null);
       router.push(`/game/${gameId}`);
     } catch (err: any) {
-      alert(err.response?.data?.message || "Oyuna katılamadınız");
+      alert(err.response?.data?.message || "Could not join game");
     }
   };
 
@@ -134,7 +134,7 @@ export default function Lobby() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
       padding: "20px",
       display: "flex",
       flexDirection: "column",
@@ -142,62 +142,78 @@ export default function Lobby() {
       justifyContent: "center",
     }}>
       <div style={{
-        background: "white",
-        borderRadius: "20px",
+        background: "rgba(255, 255, 255, 0.95)",
+        borderRadius: "16px",
         padding: "40px",
         maxWidth: "500px",
         width: "100%",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)",
         textAlign: "center",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255,255,255,0.1)",
       }}>
-        <h1 style={{ fontSize: "48px", margin: "0 0 10px 0", color: "#333" }}>🎯 Lobby</h1>
-        <p style={{ color: "#666", marginBottom: "30px", fontSize: "16px" }}>
-          Hoşgeldiniz, <strong>{user?.username}</strong>!
+        <h1 style={{ fontSize: "42px", margin: "0 0 8px 0", color: "#0f172a", fontWeight: "700" }}>Game Lobby</h1>
+        <p style={{ color: "#64748b", marginBottom: "32px", fontSize: "15px" }}>
+          Welcome, <strong style={{ color: "#0f172a" }}>{user?.username}</strong>!
         </p>
 
         {!gameMode && !searching ? (
           <div>
-            <p style={{ color: "#666", marginBottom: "30px", fontSize: "16px" }}>
-              Oyun türünü seçin
+            <p style={{ color: "#64748b", marginBottom: "24px", fontSize: "14px", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: "600" }}>
+              Select Game Mode
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               <button
                 onClick={() => setGameMode("MATCHED")}
                 style={{
                   width: "100%",
-                  padding: "20px",
-                  fontSize: "18px",
-                  fontWeight: "bold",
+                  padding: "16px",
+                  fontSize: "15px",
+                  fontWeight: "600",
                   border: "none",
                   borderRadius: "12px",
-                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
                   color: "white",
                   cursor: "pointer",
-                  transition: "transform 0.2s",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  boxShadow: "0 4px 15px rgba(59, 130, 246, 0.3)",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 8px 25px rgba(59, 130, 246, 0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(59, 130, 246, 0.3)";
+                }}
               >
-                🎮 Eşleştirmeli (Kredi kazanılır)
+                Matched Game (Earn Credits)
               </button>
               <button
                 onClick={() => setGameMode("PRIVATE")}
                 style={{
                   width: "100%",
-                  padding: "20px",
-                  fontSize: "18px",
-                  fontWeight: "bold",
+                  padding: "16px",
+                  fontSize: "15px",
+                  fontWeight: "600",
                   border: "none",
                   borderRadius: "12px",
-                  background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+                  background: "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
                   color: "white",
                   cursor: "pointer",
-                  transition: "transform 0.2s",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  boxShadow: "0 4px 15px rgba(6, 182, 212, 0.3)",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 8px 25px rgba(6, 182, 212, 0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(6, 182, 212, 0.3)";
+                }}
               >
-                👥 Özel (Arkadaşlarla)
+                Private Game (Play with Friends)
               </button>
             </div>
           </div>
@@ -205,28 +221,35 @@ export default function Lobby() {
           <div style={{ marginBottom: "20px" }}>
             {!searching ? (
               <>
-                <p style={{ color: "#666", marginBottom: "20px", fontSize: "16px" }}>
-                  Eşleştirmeli oyunda rakip aranıyor...
+                <p style={{ color: "#64748b", marginBottom: "20px", fontSize: "15px" }}>
+                  Find an opponent and earn credits
                 </p>
                 <button
                   onClick={joinQueue}
                   style={{
                     width: "100%",
-                    padding: "20px",
-                    fontSize: "18px",
-                    fontWeight: "bold",
+                    padding: "16px",
+                    fontSize: "15px",
+                    fontWeight: "600",
                     border: "none",
                     borderRadius: "12px",
-                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
                     color: "white",
                     cursor: "pointer",
-                    transition: "transform 0.2s",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                     marginBottom: "12px",
+                    boxShadow: "0 4px 15px rgba(59, 130, 246, 0.3)",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = "0 8px 25px rgba(59, 130, 246, 0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "0 4px 15px rgba(59, 130, 246, 0.3)";
+                  }}
                 >
-                  🎮 Oyna
+                  Start Game
                 </button>
               </>
             ) : (
@@ -238,13 +261,15 @@ export default function Lobby() {
                 marginBottom: "30px",
               }}>
                 <div style={{
-                  fontSize: "32px",
+                  width: "20px",
+                  height: "20px",
+                  border: "2px solid #e2e8f0",
+                  borderTop: "2px solid #3b82f6",
+                  borderRadius: "50%",
                   animation: "spin 1s linear infinite",
-                }}>
-                  ⏳
-                </div>
-                <p style={{ color: "#666", fontSize: "18px", margin: 0 }}>
-                  Oyuncu aranıyor...
+                }}/>
+                <p style={{ color: "#64748b", fontSize: "15px", margin: 0 }}>
+                  Searching for opponent...
                 </p>
               </div>
             )}
@@ -253,24 +278,33 @@ export default function Lobby() {
               style={{
                 width: "100%",
                 padding: "12px",
-                fontSize: "16px",
-                fontWeight: "bold",
-                border: "2px solid #ff4444",
-                borderRadius: "8px",
+                fontSize: "14px",
+                fontWeight: "600",
+                border: "1px solid #e2e8f0",
+                borderRadius: "10px",
                 background: "white",
-                color: "#ff4444",
+                color: "#64748b",
                 cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#ef4444";
+                e.currentTarget.style.color = "#ef4444";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#e2e8f0";
+                e.currentTarget.style.color = "#64748b";
               }}
             >
-              İptal Et
+              Cancel
             </button>
           </div>
         ) : gameMode === "PRIVATE" ? (
           <div>
             {!privateGameMode ? (
               <div>
-                <p style={{ color: "#666", marginBottom: "20px", fontSize: "16px" }}>
-                  Özel oyun seçeneği seçin
+                <p style={{ color: "#64748b", marginBottom: "20px", fontSize: "14px", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: "600" }}>
+                  Private Game Options
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   <button
@@ -278,16 +312,26 @@ export default function Lobby() {
                     style={{
                       width: "100%",
                       padding: "16px",
-                      fontSize: "16px",
-                      fontWeight: "bold",
+                      fontSize: "15px",
+                      fontWeight: "600",
                       border: "none",
-                      borderRadius: "8px",
-                      background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+                      borderRadius: "12px",
+                      background: "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
                       color: "white",
                       cursor: "pointer",
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      boxShadow: "0 4px 15px rgba(6, 182, 212, 0.3)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = "0 8px 25px rgba(6, 182, 212, 0.4)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "0 4px 15px rgba(6, 182, 212, 0.3)";
                     }}
                   >
-                    ➕ Arkadaşını Davet Et
+                    Invite Friend
                   </button>
                 </div>
                 <button
@@ -296,32 +340,36 @@ export default function Lobby() {
                     width: "100%",
                     padding: "12px",
                     fontSize: "14px",
-                    fontWeight: "bold",
-                    border: "2px solid #ddd",
-                    borderRadius: "8px",
+                    fontWeight: "600",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: "10px",
                     background: "white",
-                    color: "#666",
+                    color: "#64748b",
                     cursor: "pointer",
                     marginTop: "12px",
+                    transition: "all 0.2s",
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#cbd5e1")}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e2e8f0")}
                 >
-                  ← Geri
+                  Back
                 </button>
               </div>
             ) : privateGameMode === "CREATE" ? (
               <div>
-                <p style={{ color: "#666", marginBottom: "20px", fontSize: "16px" }}>
-                  Arkadaş seçin
+                <p style={{ color: "#64748b", marginBottom: "20px", fontSize: "14px", textTransform: "uppercase", letterSpacing: "0.5px", fontWeight: "600" }}>
+                  Select a Friend
                 </p>
                 {friends.length === 0 ? (
                   <div style={{
-                    background: "#f5f5f5",
+                    background: "linear-gradient(135deg, rgba(15, 23, 42, 0.05), rgba(51, 65, 85, 0.05))",
                     padding: "20px",
                     borderRadius: "12px",
                     marginBottom: "20px",
-                    color: "#666",
+                    color: "#64748b",
+                    border: "1px solid rgba(51, 65, 85, 0.1)",
                   }}>
-                    <p style={{ margin: 0 }}>Henüz arkadaşınız yok</p>
+                    <p style={{ margin: 0 }}>No friends yet</p>
                   </div>
                 ) : (
                   <div style={{
@@ -338,19 +386,19 @@ export default function Lobby() {
                         onClick={() => setSelectedFriend(friend.id)}
                         style={{
                           padding: "12px",
-                          borderRadius: "8px",
-                          border: selectedFriend === friend.id ? "3px solid #667eea" : "2px solid #ddd",
-                          background: selectedFriend === friend.id ? "#f0f0ff" : "white",
-                          color: "#333",
+                          borderRadius: "10px",
+                          border: selectedFriend === friend.id ? "2px solid #3b82f6" : "1px solid #e2e8f0",
+                          background: selectedFriend === friend.id ? "rgba(59, 130, 246, 0.1)" : "white",
+                          color: "#0f172a",
                           cursor: "pointer",
-                          fontSize: "16px",
-                          fontWeight: selectedFriend === friend.id ? "bold" : "normal",
+                          fontSize: "15px",
+                          fontWeight: selectedFriend === friend.id ? "600" : "500",
                           transition: "all 0.2s",
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.background = "#f9f9f9")}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = selectedFriend === friend.id ? "#f0f0ff" : "white")}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = selectedFriend === friend.id ? "rgba(59, 130, 246, 0.1)" : "#f9fafb")}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = selectedFriend === friend.id ? "rgba(59, 130, 246, 0.1)" : "white")}
                       >
-                        👤 {friend.username}
+                        {friend.username}
                       </button>
                     ))}
                   </div>
@@ -360,18 +408,20 @@ export default function Lobby() {
                   disabled={!selectedFriend}
                   style={{
                     width: "100%",
-                    padding: "16px",
-                    fontSize: "16px",
-                    fontWeight: "bold",
+                    padding: "12px",
+                    fontSize: "15px",
+                    fontWeight: "600",
                     border: "none",
-                    borderRadius: "8px",
-                    background: selectedFriend ? "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" : "#ccc",
+                    borderRadius: "10px",
+                    background: selectedFriend ? "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)" : "#cbd5e1",
                     color: "white",
                     cursor: selectedFriend ? "pointer" : "not-allowed",
                     marginBottom: "12px",
+                    transition: "all 0.3s",
+                    boxShadow: selectedFriend ? "0 4px 15px rgba(6, 182, 212, 0.3)" : "none",
                   }}
                 >
-                  ✓ Oyun Oluştur
+                  Create Game
                 </button>
                 <button
                   onClick={() => setPrivateGameMode(null)}
@@ -379,15 +429,18 @@ export default function Lobby() {
                     width: "100%",
                     padding: "12px",
                     fontSize: "14px",
-                    fontWeight: "bold",
-                    border: "2px solid #ddd",
-                    borderRadius: "8px",
+                    fontWeight: "600",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: "10px",
                     background: "white",
-                    color: "#666",
+                    color: "#64748b",
                     cursor: "pointer",
+                    transition: "all 0.2s",
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#cbd5e1")}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e2e8f0")}
                 >
-                  ← Geri
+                  Back
                 </button>
               </div>
             ) : null}
@@ -401,15 +454,18 @@ export default function Lobby() {
               width: "100%",
               padding: "12px",
               fontSize: "14px",
-              fontWeight: "bold",
-              border: "2px solid #ddd",
-              borderRadius: "8px",
+              fontWeight: "600",
+              border: "1px solid #e2e8f0",
+              borderRadius: "10px",
               background: "white",
-              color: "#666",
+              color: "#64748b",
               cursor: "pointer",
+              transition: "all 0.2s",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#cbd5e1")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e2e8f0")}
           >
-            ← Ana Sayfa
+            Back to Home
           </button>
         )}
       </div>

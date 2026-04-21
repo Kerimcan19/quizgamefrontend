@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
       padding: "20px",
       display: "flex",
       flexDirection: "column",
@@ -36,21 +36,30 @@ export default function Home() {
       justifyContent: "center",
     }}>
       <div style={{
-        background: "white",
-        borderRadius: "20px",
+        background: "rgba(255, 255, 255, 0.95)",
+        borderRadius: "16px",
         padding: "40px",
         maxWidth: "500px",
         width: "100%",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)",
         textAlign: "center",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255,255,255,0.1)",
       }}>
-        <h1 style={{ fontSize: "48px", margin: "0 0 10px 0", color: "#333" }}>🎮 Quiz Game</h1>
-        <p style={{ color: "#666", marginBottom: "30px", fontSize: "16px" }}>
-          Hoşgeldiniz, <strong>{user.username}</strong>!
+        <h1 style={{ fontSize: "42px", margin: "0 0 8px 0", color: "#0f172a", fontWeight: "700" }}>Quiz Game</h1>
+        <p style={{ color: "#64748b", marginBottom: "32px", fontSize: "15px" }}>
+          Welcome back, <strong style={{ color: "#0f172a" }}>{user.username}</strong>
         </p>
 
-        <div style={{ marginBottom: "30px", padding: "15px", background: "#f5f5f5", borderRadius: "10px" }}>
-          <p style={{ margin: "0", color: "#666" }}>💰 Krediniz: <strong style={{ fontSize: "20px", color: "#667eea" }}>{user.credits}</strong></p>
+        <div style={{
+          marginBottom: "32px",
+          padding: "16px 20px",
+          background: "linear-gradient(135deg, rgba(15, 23, 42, 0.05), rgba(51, 65, 85, 0.05))",
+          borderRadius: "12px",
+          border: "1px solid rgba(51, 65, 85, 0.1)"
+        }}>
+          <p style={{ margin: "0", color: "#64748b", fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.5px" }}>Credits Available</p>
+          <p style={{ margin: "8px 0 0 0", fontSize: "28px", fontWeight: "700", color: "#0f172a" }}>{user.credits}</p>
         </div>
 
         <div style={{
@@ -62,77 +71,105 @@ export default function Home() {
           <button
             onClick={() => router.push("/lobby")}
             style={{
-              padding: "20px",
-              fontSize: "16px",
-              fontWeight: "bold",
+              padding: "16px",
+              fontSize: "14px",
+              fontWeight: "600",
               border: "none",
               borderRadius: "12px",
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
               color: "white",
               cursor: "pointer",
-              transition: "transform 0.2s",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              boxShadow: "0 4px 15px rgba(59, 130, 246, 0.3)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 8px 25px rgba(59, 130, 246, 0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 15px rgba(59, 130, 246, 0.3)";
+            }}
           >
-            🎯 Lobby
+            Play Game
           </button>
 
           <button
             onClick={() => router.push("/leaderboard")}
             style={{
-              padding: "20px",
-              fontSize: "16px",
-              fontWeight: "bold",
+              padding: "16px",
+              fontSize: "14px",
+              fontWeight: "600",
               border: "none",
               borderRadius: "12px",
-              background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+              background: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
               color: "white",
               cursor: "pointer",
-              transition: "transform 0.2s",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              boxShadow: "0 4px 15px rgba(139, 92, 246, 0.3)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 8px 25px rgba(139, 92, 246, 0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 15px rgba(139, 92, 246, 0.3)";
+            }}
           >
-            🏆 Sıralama
+            Leaderboard
           </button>
 
           <button
             onClick={() => router.push("/friends")}
             style={{
-              padding: "20px",
-              fontSize: "16px",
-              fontWeight: "bold",
+              padding: "16px",
+              fontSize: "14px",
+              fontWeight: "600",
               border: "none",
               borderRadius: "12px",
-              background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+              background: "linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)",
               color: "white",
               cursor: "pointer",
-              transition: "transform 0.2s",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              boxShadow: "0 4px 15px rgba(6, 182, 212, 0.3)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 8px 25px rgba(6, 182, 212, 0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 15px rgba(6, 182, 212, 0.3)";
+            }}
           >
-            👥 Arkadaşlar
+            Friends
           </button>
 
           <button
             onClick={() => router.push("/store")}
             style={{
-              padding: "20px",
-              fontSize: "16px",
-              fontWeight: "bold",
+              padding: "16px",
+              fontSize: "14px",
+              fontWeight: "600",
               border: "none",
               borderRadius: "12px",
-              background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+              background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
               color: "white",
               cursor: "pointer",
-              transition: "transform 0.2s",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              boxShadow: "0 4px 15px rgba(245, 158, 11, 0.3)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 8px 25px rgba(245, 158, 11, 0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 15px rgba(245, 158, 11, 0.3)";
+            }}
           >
-            🛍️ Mağaza
+            Store
           </button>
         </div>
 
@@ -141,25 +178,27 @@ export default function Home() {
           style={{
             padding: "12px 20px",
             fontSize: "14px",
-            fontWeight: "bold",
-            border: "2px solid #ddd",
-            borderRadius: "8px",
+            fontWeight: "600",
+            border: "1px solid #e2e8f0",
+            borderRadius: "10px",
             background: "white",
-            color: "#666",
+            color: "#64748b",
             cursor: "pointer",
             width: "100%",
             transition: "all 0.2s",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#ff4444";
-            e.currentTarget.style.color = "#ff4444";
+            e.currentTarget.style.borderColor = "#ef4444";
+            e.currentTarget.style.color = "#ef4444";
+            e.currentTarget.style.background = "#fff5f5";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "#ddd";
-            e.currentTarget.style.color = "#666";
+            e.currentTarget.style.borderColor = "#e2e8f0";
+            e.currentTarget.style.color = "#64748b";
+            e.currentTarget.style.background = "white";
           }}
         >
-          Çıkış
+          Sign Out
         </button>
       </div>
     </div>

@@ -72,27 +72,29 @@ export default function RootLayout({ children }: any) {
       <body>
         {children}
 
-        {/* Davet Bildirimi */}
+        {/* Game Invite Notification */}
         {invite && (
           <div
             style={{
               position: "fixed",
               top: "20px",
               right: "20px",
-              background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+              background: "rgba(255, 255, 255, 0.95)",
               padding: "20px",
               borderRadius: "12px",
-              boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
+              boxShadow: "0 10px 40px rgba(0,0,0,0.2)",
+              border: "1px solid rgba(59, 130, 246, 0.2)",
               zIndex: 9999,
-              maxWidth: "300px",
+              maxWidth: "320px",
               animation: "slideIn 0.3s ease-out",
+              backdropFilter: "blur(10px)",
             }}
           >
-            <h3 style={{ margin: "0 0 10px 0", color: "white", fontSize: "16px" }}>
-              🎮 Oyun Daveti
+            <h3 style={{ margin: "0 0 8px 0", color: "#0f172a", fontSize: "15px", fontWeight: "700" }}>
+              Game Invitation
             </h3>
-            <p style={{ margin: "0 0 15px 0", color: "white", fontSize: "14px" }}>
-              <strong>{invite.creatorName}</strong> seni özel oyuna davet ediyor!
+            <p style={{ margin: "0 0 16px 0", color: "#64748b", fontSize: "14px" }}>
+              <strong style={{ color: "#0f172a" }}>{invite.creatorName}</strong> invited you to play!
             </p>
             <div style={{ display: "flex", gap: "10px" }}>
               <button
@@ -100,32 +102,38 @@ export default function RootLayout({ children }: any) {
                 style={{
                   flex: 1,
                   padding: "10px",
-                  background: "white",
-                  color: "#fa709a",
+                  background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+                  color: "white",
                   border: "none",
                   borderRadius: "8px",
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   cursor: "pointer",
-                  fontSize: "14px",
+                  fontSize: "13px",
+                  transition: "all 0.2s",
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
               >
-                ✓ Kabul
+                Accept
               </button>
               <button
                 onClick={handleRejectInvite}
                 style={{
                   flex: 1,
                   padding: "10px",
-                  background: "rgba(255,255,255,0.3)",
-                  color: "white",
-                  border: "none",
+                  background: "#f3f4f6",
+                  color: "#64748b",
+                  border: "1px solid #e2e8f0",
                   borderRadius: "8px",
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   cursor: "pointer",
-                  fontSize: "14px",
+                  fontSize: "13px",
+                  transition: "all 0.2s",
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = "#e5e7eb")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "#f3f4f6")}
               >
-                ✕ Reddet
+                Decline
               </button>
             </div>
           </div>

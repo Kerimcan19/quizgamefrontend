@@ -43,7 +43,7 @@ export default function Login() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
       padding: "20px",
       display: "flex",
       flexDirection: "column",
@@ -51,32 +51,35 @@ export default function Login() {
       justifyContent: "center",
     }}>
       <div style={{
-        background: "white",
-        borderRadius: "20px",
+        background: "rgba(255, 255, 255, 0.95)",
+        borderRadius: "16px",
         padding: "40px",
         maxWidth: "400px",
         width: "100%",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255,255,255,0.1)",
       }}>
-        <h1 style={{ fontSize: "36px", textAlign: "center", margin: "0 0 30px 0", color: "#333" }}>
-          🎮 Giriş Yap
+        <h1 style={{ fontSize: "32px", textAlign: "center", margin: "0 0 28px 0", color: "#0f172a", fontWeight: "700" }}>
+          Sign In
         </h1>
 
         {error && (
           <div style={{
-            background: "#ffebee",
-            color: "#c62828",
+            background: "rgba(239, 68, 68, 0.1)",
+            color: "#dc2626",
             padding: "12px",
-            borderRadius: "8px",
+            borderRadius: "10px",
             marginBottom: "20px",
             fontSize: "14px",
+            border: "1px solid rgba(239, 68, 68, 0.2)",
           }}>
             {error}
           </div>
         )}
 
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "5px", color: "#333" }}>
+        <div style={{ marginBottom: "16px" }}>
+          <label style={{ display: "block", fontSize: "13px", fontWeight: "600", marginBottom: "6px", color: "#0f172a", textTransform: "uppercase", letterSpacing: "0.5px" }}>
             Email
           </label>
           <input
@@ -89,20 +92,29 @@ export default function Login() {
               width: "100%",
               padding: "12px",
               fontSize: "14px",
-              border: "2px solid #ddd",
-              borderRadius: "8px",
+              border: "1px solid #e2e8f0",
+              borderRadius: "10px",
               boxSizing: "border-box",
-              transition: "border-color 0.2s",
+              transition: "all 0.2s",
               outline: "none",
+              background: "rgba(255, 255, 255, 0.5)",
             }}
-            onFocus={(e) => (e.currentTarget.style.borderColor = "#667eea")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "#ddd")}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = "#3b82f6";
+              e.currentTarget.style.background = "white";
+              e.currentTarget.style.boxShadow = "0 0 0 3px rgba(59, 130, 246, 0.1)";
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = "#e2e8f0";
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.5)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
           />
         </div>
 
-        <div style={{ marginBottom: "25px" }}>
-          <label style={{ display: "block", fontSize: "14px", fontWeight: "bold", marginBottom: "5px", color: "#333" }}>
-            Şifre
+        <div style={{ marginBottom: "24px" }}>
+          <label style={{ display: "block", fontSize: "13px", fontWeight: "600", marginBottom: "6px", color: "#0f172a", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            Password
           </label>
           <input
             type="password"
@@ -114,14 +126,23 @@ export default function Login() {
               width: "100%",
               padding: "12px",
               fontSize: "14px",
-              border: "2px solid #ddd",
-              borderRadius: "8px",
+              border: "1px solid #e2e8f0",
+              borderRadius: "10px",
               boxSizing: "border-box",
-              transition: "border-color 0.2s",
+              transition: "all 0.2s",
               outline: "none",
+              background: "rgba(255, 255, 255, 0.5)",
             }}
-            onFocus={(e) => (e.currentTarget.style.borderColor = "#667eea")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "#ddd")}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = "#3b82f6";
+              e.currentTarget.style.background = "white";
+              e.currentTarget.style.boxShadow = "0 0 0 3px rgba(59, 130, 246, 0.1)";
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = "#e2e8f0";
+              e.currentTarget.style.background = "rgba(255, 255, 255, 0.5)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
           />
         </div>
 
@@ -131,35 +152,38 @@ export default function Login() {
           style={{
             width: "100%",
             padding: "12px",
-            fontSize: "16px",
-            fontWeight: "bold",
+            fontSize: "15px",
+            fontWeight: "600",
             border: "none",
-            borderRadius: "8px",
-            background: loading ? "#ccc" : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            borderRadius: "10px",
+            background: loading ? "#cbd5e1" : "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
             color: "white",
             cursor: loading ? "not-allowed" : "pointer",
-            transition: "all 0.2s",
-            marginBottom: "15px",
+            transition: "all 0.3s",
+            marginBottom: "16px",
+            boxShadow: loading ? "none" : "0 4px 15px rgba(59, 130, 246, 0.3)",
           }}
         >
-          {loading ? "Giriş Yapılıyor..." : "Giriş Yap"}
+          {loading ? "Signing in..." : "Sign In"}
         </button>
 
-        <div style={{ textAlign: "center", color: "#666" }}>
-          <p style={{ margin: "0 0 10px 0" }}>Hesabınız yok mu?</p>
+        <div style={{ textAlign: "center", color: "#64748b" }}>
+          <p style={{ margin: "0 0 10px 0", fontSize: "14px" }}>Don't have an account?</p>
           <button
             onClick={() => router.push("/auth/register")}
             style={{
               background: "none",
               border: "none",
-              color: "#667eea",
+              color: "#3b82f6",
               cursor: "pointer",
               fontSize: "14px",
-              fontWeight: "bold",
-              textDecoration: "underline",
+              fontWeight: "600",
+              transition: "color 0.2s",
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#2563eb")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#3b82f6")}
           >
-            Kayıt Ol
+            Create Account
           </button>
         </div>
       </div>

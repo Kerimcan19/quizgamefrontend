@@ -26,7 +26,7 @@ export default function Store() {
 
   const buy = async (id: string) => {
     if (!userId) {
-      alert("Önce giriş yap");
+      alert("Please sign in first");
       return;
     }
 
@@ -44,7 +44,7 @@ export default function Store() {
         setUser(res.data.user);
       }
 
-      alert("Satın alındı ✅");
+      alert("Purchase successful ✅");
     } catch (err: any) {
       alert(err.response?.data?.message || "Hata oluştu");
       setPurchasing(null);
@@ -54,7 +54,7 @@ export default function Store() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
       padding: "20px",
     }}>
       <div style={{
@@ -62,36 +62,39 @@ export default function Store() {
         margin: "0 auto",
       }}>
         <div style={{
-          background: "white",
-          borderRadius: "20px",
+          background: "rgba(255, 255, 255, 0.95)",
+          borderRadius: "16px",
           padding: "40px 20px",
           marginBottom: "20px",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2)",
+          backdropFilter: "blur(10px)",
+          border: "1px solid rgba(255,255,255,0.1)",
         }}>
-          <h1 style={{ fontSize: "48px", textAlign: "center", margin: "0 0 10px 0", color: "#333" }}>
-            🛍️ Mağaza
+          <h1 style={{ fontSize: "42px", textAlign: "center", margin: "0 0 8px 0", color: "#0f172a", fontWeight: "700" }}>
+            Store
           </h1>
 
           <div style={{
             textAlign: "center",
-            background: "#f5f5f5",
-            padding: "15px",
+            background: "linear-gradient(135deg, rgba(15, 23, 42, 0.05), rgba(51, 65, 85, 0.05))",
+            padding: "16px 20px",
             borderRadius: "12px",
-            marginBottom: "30px",
+            marginBottom: "32px",
+            border: "1px solid rgba(51, 65, 85, 0.1)",
           }}>
-            <p style={{ margin: "0", color: "#666", fontSize: "14px" }}>Mevcut Krediniz</p>
-            <p style={{ margin: "5px 0 0 0", fontSize: "28px", fontWeight: "bold", color: "#667eea" }}>
-              💰 {user?.credits || 0}
+            <p style={{ margin: "0", color: "#64748b", fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.5px" }}>Available Credits</p>
+            <p style={{ margin: "8px 0 0 0", fontSize: "28px", fontWeight: "700", color: "#0f172a" }}>
+              {user?.credits || 0}
             </p>
           </div>
 
           {loading ? (
-            <div style={{ textAlign: "center", color: "#666", fontSize: "18px" }}>
-              Yükleniyor...
+            <div style={{ textAlign: "center", color: "#64748b", fontSize: "15px" }}>
+              Loading items...
             </div>
           ) : items.length === 0 ? (
-            <div style={{ textAlign: "center", color: "#666", fontSize: "16px" }}>
-              Mağazada ürün yok
+            <div style={{ textAlign: "center", color: "#64748b", fontSize: "15px" }}>
+              No items available
             </div>
           ) : (
             <div style={{ display: "grid", gap: "12px", marginBottom: "20px" }}>
@@ -99,10 +102,10 @@ export default function Store() {
                 <div
                   key={item.id}
                   style={{
-                    border: "2px solid #ddd",
+                    border: "1px solid #e2e8f0",
                     borderRadius: "12px",
                     padding: "16px",
-                    background: "#f9f9f9",
+                    background: "white",
                     transition: "all 0.2s",
                   }}
                 >
@@ -112,18 +115,18 @@ export default function Store() {
                     alignItems: "center",
                     marginBottom: "12px",
                   }}>
-                    <h3 style={{ margin: 0, color: "#333", fontSize: "16px" }}>
-                      ✨ {item.name}
+                    <h3 style={{ margin: 0, color: "#0f172a", fontSize: "15px", fontWeight: "600" }}>
+                      {item.name}
                     </h3>
                     <span style={{
-                      background: "#667eea",
+                      background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
                       color: "white",
                       padding: "6px 12px",
                       borderRadius: "20px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      fontSize: "13px",
+                      fontWeight: "600",
                     }}>
-                      💰 {item.price}
+                      {item.price}
                     </span>
                   </div>
 
@@ -134,38 +137,43 @@ export default function Store() {
                       width: "100%",
                       padding: "10px",
                       fontSize: "14px",
-                      fontWeight: "bold",
+                      fontWeight: "600",
                       border: "none",
-                      borderRadius: "8px",
+                      borderRadius: "10px",
                       background: (purchasing === item.id || !user || user.credits < item.price)
-                        ? "#ccc"
-                        : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        ? "#cbd5e1"
+                        : "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
                       color: "white",
                       cursor: (purchasing === item.id || !user || user.credits < item.price)
                         ? "not-allowed"
                         : "pointer",
-                      transition: "all 0.2s",
+                      transition: "all 0.3s",
+                      boxShadow: (purchasing !== item.id && user && user.credits >= item.price) ? "0 4px 15px rgba(59, 130, 246, 0.3)" : "none",
                     }}
                     onMouseEnter={(e) => {
                       if (purchasing !== item.id && user && user.credits >= item.price) {
-                        e.currentTarget.style.transform = "scale(1.02)";
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = "0 8px 25px rgba(59, 130, 246, 0.4)";
                       }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.transform = "translateY(0)";
+                      if (purchasing !== item.id && user && user.credits >= item.price) {
+                        e.currentTarget.style.boxShadow = "0 4px 15px rgba(59, 130, 246, 0.3)";
+                      }
                     }}
                   >
-                    {purchasing === item.id ? "Satın Alınıyor..." : "Satın Al"}
+                    {purchasing === item.id ? "Purchasing..." : "Buy"}
                   </button>
 
                   {user && user.credits < item.price && (
                     <p style={{
                       margin: "8px 0 0 0",
-                      color: "#ff4444",
+                      color: "#ef4444",
                       fontSize: "12px",
                       textAlign: "center",
                     }}>
-                      Yeterli krediniz yok
+                      Insufficient credits
                     </p>
                   )}
                 </div>
@@ -180,15 +188,24 @@ export default function Store() {
             width: "100%",
             padding: "12px",
             fontSize: "14px",
-            fontWeight: "bold",
-            border: "2px solid white",
-            borderRadius: "8px",
+            fontWeight: "600",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            borderRadius: "10px",
             background: "transparent",
             color: "white",
             cursor: "pointer",
+            transition: "all 0.2s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = "white";
+            e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+            e.currentTarget.style.background = "transparent";
           }}
         >
-          ← Geri
+          Back to Home
         </button>
       </div>
     </div>
